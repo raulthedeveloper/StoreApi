@@ -47,8 +47,29 @@ namespace StoreApi.Controllers
 
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] JsonElement body)
         {
+           
+
+            ProductsModel product = new ProductsModel()
+            {
+                catId = int.Parse(body.GetProperty("catId").ToString()),
+                name = body.GetProperty("name").ToString(),
+                description = body.GetProperty("description").ToString(),
+                image = body.GetProperty("image").ToString(),
+                price = int.Parse(body.GetProperty("price").ToString())
+
+
+            };
+
+            db.UpdateProduct(id,product);
+        }
+
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            db.DeleteProduct(id);
         }
     }
 }

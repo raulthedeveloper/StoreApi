@@ -16,6 +16,8 @@ namespace StoreApi.DAL
 
         DataTable dtbl = new DataTable();
 
+      
+
         public  List<ProductsModel> GetAllProducts(){
 
 
@@ -55,7 +57,7 @@ namespace StoreApi.DAL
                     productsList.Add(new ProductsModel()
                     {
                         name = "No Data"
-                    }) ;
+                    });
                 }
             }
             return productsList ;
@@ -133,24 +135,44 @@ namespace StoreApi.DAL
 
         }
 
-        public void UpdateProduct(int id)
+        public void UpdateProduct(int id, ProductsModel product)
         {
-
+            using (SqlConnection sqlCon = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand($"UPDATE products SET catId = '{product.catId}', name = '{product.name}', description = '{product.description}', image = '{product.image}', price = {product.price} WHERE id = {id};", sqlCon);
+                sqlCon.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
 
-        public void UpdateCategory(int id)
+        public void UpdateCategory(int id,CategoriesModel category)
         {
-
+            using (SqlConnection sqlCon = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand($"UPDATE category SET  name = '{category.name}', description = '{category.description}', image = '{category.image}' WHERE id = {id};", sqlCon);
+                sqlCon.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
 
         public void DeleteProduct(int id)
         {
-
+            using (SqlConnection sqlCon = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand($"DELETE FROM products WHERE id = {id};", sqlCon);
+                sqlCon.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
 
         public void DeleteCategory(int id)
         {
-
+            using (SqlConnection sqlCon = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand($"DELETE FROM category WHERE id = {id};", sqlCon);
+                sqlCon.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 

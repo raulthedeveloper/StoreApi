@@ -42,6 +42,27 @@ namespace StoreApi.Controllers
 
         }
 
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] JsonElement body)
+        {
+            CategoriesModel category = new CategoriesModel()
+            {
+                name = body.GetProperty("name").ToString(),
+                description = body.GetProperty("description").ToString(),
+                image = body.GetProperty("image").ToString(),
+
+
+            };
+
+            db.UpdateCategory(id, category);
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            db.DeleteCategory(id);
+        }
+
 
     }
 }
